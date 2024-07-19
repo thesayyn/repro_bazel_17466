@@ -1,0 +1,2 @@
+common --platforms=@aspect_bazel_lib//platforms:x86_64_linux_remote
+common --use_target_platform_for_tests
