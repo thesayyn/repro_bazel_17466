@@ -13,6 +13,6 @@ diff_test(
     file1 = "MODULE.bazel",
     file2 = "BUILD.bazel",
     exec_properties = {
-        "container-image": "cgr.dev/chainguard/python",
+        "container-image": "docker://cgr.dev/chainguard/python",
     }
 )
