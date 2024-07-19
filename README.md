@@ -1,7 +1,10 @@
 # Reproduction for merging per-target exec properties for the test exec group
 
 The `--use_target_platform_for_tests` flag landed in https://github.com/bazelbuild/bazel/pull/17390.
-However the final comment is "Not until we address the issue with merging per-target exec properties for the `test` exec group.
+
+However the final comment indicates that it's not done:
+> Not until we address the issue with merging per-target exec properties for the `test` exec group."
+
 The follow-up issue https://github.com/bazelbuild/bazel/issues/17466 requests a reproduction, which follows.
 
 1. `.bazelrc` sets `--use_target_platform_for_tests`.
@@ -10,7 +13,7 @@ The follow-up issue https://github.com/bazelbuild/bazel/issues/17466 requests a 
 
 ```
 exec_properties = {
-    "container-image": "cgr.dev/chainguard/python",
+    "container-image": "docker://cgr.dev/chainguard/python",
 }
 ```
 
