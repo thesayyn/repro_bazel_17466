@@ -9,18 +9,24 @@ The follow-up issue https://github.com/bazelbuild/bazel/issues/17466 requests a 
 
 1. `.bazelrc` sets `--use_target_platform_for_tests`.
 
-2. In `BUILD` we have a test that requests execution properties. Without loss of generality, we choose a different executor image:
+2. In `BUILD` we have a test that requests execution properties. Without loss of generality, we choose a different executor image.
 
 ```
 exec_properties = {
-    "container-image": "docker://cgr.dev/chainguard/python",
+    "test.container-image": "docker://cgr.dev/chainguard/python",
 }
 ```
 
-3. However when we query the actions produced, we see `ExecutionInfo: {container-image: docker://public.ecr.aws/docker/library...}` so this test will execute on the wrong image.
+3. However when we query the actions produced, we see the test action has `ExecutionInfo: {container-image: docker://public.ecr.aws/docker/library...}` so it will execute on the wrong image.
 
 ```
 % bazel aquery :all
+action 'Expanding template test_on_chainguard_executor-test.sh'
+  Mnemonic: TemplateExpand
+  Target: //:test_on_chainguard_executor
+  Configuration: darwin_arm64-fastbuild
+  Execution platform: @platforms//host:host
+  ActionKey: add7b7d94145a708b020d76900cec6bc870ff7ea6395b192128dc907ab0af955
 
 ...
 
@@ -38,6 +44,12 @@ action 'Testing //:test_on_chainguard_executor'
 
 ```
 % bazel aquery :all --nouse_target_platform_for_tests
+
+action 'Expanding template test_on_chainguard_executor-test.sh'
+  Mnemonic: TemplateExpand
+  Target: //:test_on_chainguard_executor
+  Configuration: darwin_arm64-fastbuild
+  Execution platform: @platforms//host:host
 
 ...
 
