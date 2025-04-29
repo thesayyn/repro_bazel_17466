@@ -1,17 +1,12 @@
 load("@aspect_bazel_lib//lib:diff_test.bzl", "diff_test")
-
-# Runs on "standard" execution platform determined by --platforms
-diff_test(
-    name = "test",
-    file1 = "MODULE.bazel",
-    file2 = "BUILD.bazel",
-)
+load(":test_on.bzl", "test_on")
 
 # Should merge the exec_properties
-diff_test(
+test_on(
     name = "test_on_chainguard_executor",
-    file1 = "MODULE.bazel",
-    file2 = "BUILD.bazel",
+    rule = diff_test,
+    file1 = "a.txt",
+    file2 = "b.txt",
     exec_properties = {
         # NB: this rule creates non-test actions such as
         # TemplateExpand: Expanding template test_on_chainguard_executor-test.sh

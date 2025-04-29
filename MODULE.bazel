@@ -1,1 +1,10 @@
 bazel_dep(name = "aspect_bazel_lib", version = "2.7.8")
+bazel_dep(name = "toolchains_buildbuddy")
+archive_override(
+    module_name = "toolchains_buildbuddy",
+    urls = ["https://github.com/buildbuddy-io/buildbuddy-toolchain/archive/refs/heads/master.zip"],
+    strip_prefix = "buildbuddy-toolchain-master"
+)
+
+buildbuddy = use_extension("@toolchains_buildbuddy//:extensions.bzl", "buildbuddy")
+use_repo(buildbuddy, "buildbuddy_toolchain")
